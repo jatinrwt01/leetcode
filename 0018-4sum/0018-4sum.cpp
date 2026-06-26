@@ -2,23 +2,28 @@ class Solution {
 public:
     vector<vector<int>> fourSum(vector<int>& nums, int target) {
         int n = nums.size();
+        vector<vector<int>>ans;
         if(n<4) return {};
         sort(nums.begin(), nums.end());
-        int i=0, j=1;
-        set<vector<int>>st;
         for(int i=0; i<n-3; i++){
+        if(i>0 && nums[i] == nums[i-1]) continue;
             for(int j=i+1; j<n-2; j++){
+            if(j>i+1 && nums[j] == nums[j-1]) continue;
             int l = j+1, r=n-1;
-            long long s = 1LL * nums[i]+nums[j];
-            long long reqS = 1LL* target-s;
-            while(l<r){
-                vector<int>quad;
-                long long sum = 1LL * nums[l]+nums[r];
+            long long s = (long long) nums[i]+nums[j];
+            long long reqS = (long long) target-s;
+            while(l<r){               
+                long long sum = (long long) nums[l]+nums[r];
                 if(sum == reqS){
-                    quad.insert(quad.end(), {nums[i], nums[j], nums[l], nums[r]});
-                    st.insert(quad);
+                    ans.push_back( {nums[i], nums[j], nums[l], nums[r]});
                     l++;
                     r--;
+                    while(l<r && nums[l] == nums[l-1]){
+                        l++;
+                    }
+                    while(l<r && nums[r] == nums[r+1]){
+                        r--;
+                    }
                 } else if(reqS > sum){
                     l++;
                 } else{
@@ -27,7 +32,6 @@ public:
             }
         }
         }
-        vector<vector<int>>ans(st.begin(), st.end());
         return ans;
     }
 };
