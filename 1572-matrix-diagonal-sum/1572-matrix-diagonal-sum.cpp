@@ -5,8 +5,6 @@ public:
         int s = 0;
         for(int i=0; i<n; i++){
             s+=mat[i][i];
-        }
-        for(int i=0; i<n; i++){
             s+=mat[i][n-i-1];
         }
         if(n%2 != 0){
