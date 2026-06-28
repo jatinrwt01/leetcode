@@ -12,11 +12,7 @@ public:
                 arr[i] = arr[i-1] + 1;
             }
         }
-        int ans = INT_MIN;
-        for(int a : arr){
-            ans = max(a,ans);
-        }
-        return ans;
+       return arr[n-1];
     }
 };
 
