@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int diagonalSum(vector<vector<int>>& mat) {
+        int n = mat.size();
+        int s = 0;
+        for(int i=0; i<n; i++){
+            s+=mat[i][i];
+        }
+        for(int i=0; i<n; i++){
+            s+=mat[i][n-i-1];
+        }
+        if(n%2 != 0){
+            s-=mat[n/2][n/2];
+        }
+        return s;
+    }
+};
+
+// Synced seamlessly with LeetHub Pro
+// Pro features: https://bit.ly/leethubpro | Free version: https://bit.ly/leethubv4
+// Get it here: https://chromewebstore.google.com/detail/bcilpkkbokcopmabingnndookdogmbna
