@@ -10,7 +10,7 @@ public:
             for(int f:freq){
                 maxFreq = max(f,maxFreq);
             }
-            while((r-l+1) - (maxFreq) > k){
+            if((r-l+1) - (maxFreq) > k){
                 freq[s[l] - 'A']--;
                 l++;
             }
