@@ -1,17 +1,14 @@
 class Solution {
 public:
     int totalFruit(vector<int>& fruits) {
-        int n = fruits.size(), l=0, r=0, maxFruits=0, unique=0;
-        vector<int>freq(n,0);
+        int n = fruits.size(), l=0, r=0, maxFruits=0;
+        unordered_map<int, int>freq;
         while(r<n){
-            if(freq[fruits[r]] == 0){
-                unique++;
-            }
             freq[fruits[r]]++;
-            while(unique > 2){
+            while(freq.size() > 2){
                 freq[fruits[l]]--;
                 if(freq[fruits[l]] == 0){
-                    unique--;
+                    freq.erase(fruits[l]);
                 }
                 l++;
             }
