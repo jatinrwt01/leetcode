@@ -1,19 +1,30 @@
 class Solution {
+private:
+    int helper(vector<int>&nums, int k){
+        int n=nums.size(), l=0, r=0, ans=0, sum=0;
+        while(r<n){
+            if(nums[r] == 1){
+                sum++;
+            }
+            while(sum > k){
+                if(nums[l] == 1){
+                    sum--;
+                }
+                l++;
+            }
+            if(sum <= k){
+                ans+=(r-l+1);
+            }
+            r++;
+        }
+        return ans;
+    }
 public:
     int numSubarraysWithSum(vector<int>& nums, int goal) {
-        int ans = 0;
-        vector<int> preSum(nums.size(), 0);
-        preSum[0] = nums[0];
-        for(int i =1; i<nums.size(); i++){
-            preSum[i] =  preSum[i-1]+nums[i]; 
-        }
-        unordered_map<int,int>mp;
-        mp[0] = 1;
-        for(int i=0; i<nums.size(); i++){
-            ans+=mp[preSum[i] - goal];
-            mp[preSum[i]]++;
-        }   
-        return ans;
+        int x = helper(nums, goal);
+        int y = 0;
+        goal<=0 ? y = 0 : y = helper(nums,goal-1);
+        return x-y;
     }
 };
 
