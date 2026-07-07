@@ -1,27 +1,27 @@
 class Solution {
 private:
-    void helper(vector<int>&arr, vector<int>&ds, unordered_set<int>&st, vector<vector<int>>&ans){
+    void helper(vector<int>&arr, vector<int>&ds, vector<bool>&chk, vector<vector<int>>&ans){
             if(ds.size() == arr.size()){
                 ans.push_back(ds);
                 return;
             }
         
         for(int i=0; i<arr.size(); i++){
-        if(st.find(i) == st.end()){
+        if(!chk[i]){
             ds.push_back(arr[i]);
-            st.insert(i);
-            helper(arr, ds, st, ans);
+            chk[i] = true;
+            helper(arr, ds, chk, ans);
             ds.pop_back();
-            st.erase(i);
+            chk[i] =false;
         }
         }
     }
 public:
     vector<vector<int>> permute(vector<int>& nums) {
-        unordered_set<int>st;
+        vector<bool>chk(nums.size(), false);
         vector<int>ds;
         vector<vector<int>>ans;
-        helper(nums, ds, st, ans);
+        helper(nums, ds, chk, ans);
         return ans;
     }
 };
