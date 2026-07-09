@@ -1,7 +1,6 @@
 class Solution {
 private:
-    bool isPalindrome(string s){
-        int l=0, r=s.size()-1;
+    bool isPalindrome(string s, int l, int r){
         while(l<=r){
             if(s[l]!=s[r]){
                 return false;
@@ -17,9 +16,8 @@ private:
                 return;
             }
             for(int idx=i; idx<s.size(); idx++){
-                string sub = s.substr(i, (idx-i+1));
-                if(isPalindrome(sub)){
-                    p.push_back(sub);
+                if(isPalindrome(s, i, idx)){
+                    p.push_back(s.substr(i, idx-i+1));
                     helper(s, idx+1, p, ans);
                     p.pop_back();
                 }
