@@ -1,17 +1,7 @@
 class Solution {
-private:
-    int sumEven(int n){
-        return n*(n+1);
-    }
-
-    int sumOdd(int n){
-        return n*n;
-    }
 public:
     int gcdOfOddEvenSums(int n) {
-        int s1 = sumEven(n);
-        int s2 = sumOdd(n);
-        return gcd(s1,s2); 
+        return n;
     }
 };
 
