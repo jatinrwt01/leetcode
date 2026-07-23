@@ -1,25 +1,23 @@
 class Solution {
-private:
-    int f(int z, int o, int l, int h, int len, vector<int>&dp){
-        const int MOD = 1e9+7;
-        if(len  > h) return 0;
-        if(len == h) return 1;
-        if(dp[len] != -1){
-            return dp[len];
-        }
-        int ways = 0;
-        if(len >= l && len<=h){
-            ways++;
-        }
-        ways+=f(z,o,l, h, len+z, dp);
-        ways+=f(z,o,l,h,len+o, dp);
-        return dp[len] = ways%MOD;
-    }
 public:
     int countGoodStrings(int low, int high, int zero, int one) {
-        vector<int>dp(high+1, -1);
-        int len = 0;
-        return f(zero, one, low, high, len, dp);
+        const int MOD = 1e9+7;
+        vector<int>dp(high+1, 0);
+        dp[high] = 1;
+        for(int i=high-1; i>=0; i--){
+            int ways = 0;
+            if(i >= low){
+                ways++;
+            }
+            if(i+zero <= high){
+            ways = (ways+dp[i+zero]) %MOD;
+            }
+            if(i+one <=high){
+                ways = (ways+dp[i+one]) %MOD;
+            }
+            dp[i] = ways;
+        }
+        return dp[0];
     }
 };
 
