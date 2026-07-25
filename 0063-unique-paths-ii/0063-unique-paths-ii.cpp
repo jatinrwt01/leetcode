@@ -1,30 +1,28 @@
 class Solution {
-private:
-    int f(int r, int c, vector<vector<int>>&mat, vector<vector<int>>&dp){
-        if(mat[r][c] == 1){
-            return 0;
-        }
-        if(r == 0 && c == 0){
-            return 1;
-        }
-        if(dp[r][c] != -1){
-            return dp[r][c];
-        }
-        int right=0, down=0;
-        if(c-1>=0){
-            right = f(r, c-1, mat, dp);
-        }
-        if(r-1>=0){
-             down = f(r-1, c, mat, dp);
-        }
-        return dp[r][c] = right+down;
-    }
 public:
     int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
         int m = obstacleGrid.size();
         int n = obstacleGrid[0].size();
-        vector<vector<int>>dp(m, vector<int>(n, -1));
-        return f(m-1, n-1, obstacleGrid, dp);
+        vector<vector<int>>dp(m, vector<int>(n, 0));
+        if(obstacleGrid[0][0] == 0){
+        dp[0][0] = 1;
+        } else{
+            dp[0][0] = 0;
+        }
+        for(int r=0; r<m; r++){
+            for(int c=0; c<n; c++){
+                if(r == 0 && c == 0){
+                     continue;
+                } else{
+                    if(obstacleGrid[r][c] == 1){
+                        continue;
+                    } else{
+                    dp[r][c] = ((r>0)?dp[r-1][c]:0) + ((c>0)?dp[r][c-1]:0);
+                    }
+                }
+            }
+        }
+        return dp[m-1][n-1];
     }
 };
 
