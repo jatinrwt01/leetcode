@@ -1,20 +1,4 @@
 class Solution {
-private:
-    bool helper(int i, int k, vector<int>&nums, vector<vector<int>>&dp){
-        if(k == 0){
-            return true;
-        }
-        if(i == 0){
-            return nums[i] == k;
-        }
-        if(dp[i][k] != -1) return dp[i][k];
-        bool p = false;
-        if(nums[i]<=k){
-            p =helper(i-1, k-nums[i], nums, dp);
-        }
-        bool np = helper(i-1, k, nums, dp);
-        return dp[i][k] = p||np;
-    }
 public:
     bool canPartition(vector<int>& nums) {
         int sum = 0, n=nums.size();
@@ -25,8 +9,19 @@ public:
             return false;
         } 
         int k=sum/2;
-        vector<vector<int>>dp(n+1, vector<int>(k+1, -1));
-        return helper(n-1, k, nums, dp);
+        vector<vector<bool>>dp(n, vector<bool>(k+1, false));
+        for(int i=0; i<n; i++){
+            dp[i][0] = true;
+        }
+        if(nums[0]== k){
+            dp[0][k] = true;
+        }
+        for(int i=1; i<n; i++){
+            for(int j=1; j<=k; j++){
+                dp[i][j] = dp[i-1][j] || ((j-nums[i] >= 0)? dp[i-1][j-nums[i]] : false);
+            }
+        }
+        return dp[n-1][k];
     }
 };
 
