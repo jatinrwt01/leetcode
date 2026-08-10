@@ -1,33 +1,16 @@
 class Solution {
-private:
-    bool isPerfectSquare(int n){
-        if(n<0) return false;
-        int r=sqrt(n);
-        return r*r == n;
-    }
-    bool helper(int ind, vector<int>&dp){
-        if(ind == 0){
-            return false; 
-        }
-        if(dp[ind]!=-1){
-            return dp[ind];
-        }
-        for(int i=1; i<=ind; i++){
-            if(isPerfectSquare(i)){
-                if(!helper(ind-i, dp)){
-                    return dp[ind]=true;
+public:
+    bool winnerSquareGame(int n) {
+        vector<bool>dp(n+1, false);
+        dp[0]=false;
+        for(int i=1; i<=n; i++){
+            for(int j=1; j*j<=i; j++){
+                if(dp[i-j*j] == false){
+                    dp[i]= true;
                 }
             }
         }
-        return dp[ind]=false;
-    }
-public:
-    bool winnerSquareGame(int n) {
-        if(isPerfectSquare(n)){
-            return true;
-        }
-        vector<int>dp(n+1,-1);
-        return helper(n,dp);
+        return dp[n];
     }
 };
 
