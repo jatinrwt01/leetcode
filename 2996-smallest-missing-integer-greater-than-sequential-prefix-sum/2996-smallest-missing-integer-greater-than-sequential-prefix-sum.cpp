@@ -1,32 +1,17 @@
 class Solution {
-private:
-    bool bs(int k, vector<int>&arr){
-        int low=0, high=arr.size()-1;
-        while(low<=high){
-            int mid=low+(high-low)/2;
-            if(arr[mid] == k){
-                return true;
-            } else if(arr[mid]>k){
-                high=mid-1;
-            } else{
-                low=mid+1;
-            }
-        }
-        return false;
-    }
 public:
     int missingInteger(vector<int>& nums) {
-        vector<int>temp(nums.begin(), nums.end());
-        sort(temp.begin(), temp.end());
+        int n=nums.size();
+        unordered_set<int>st(nums.begin(), nums.end());
         int psum=nums[0];
-        for(int i=1; i<nums.size(); i++){
+        for(int i=1; i<n; i++){
             if(nums[i] == nums[i-1]+1){
                 psum+=nums[i];
-            } else{
+            }else{
                 break;
             }
         }
-        while(bs(psum, temp)){
+        while(st.find(psum) != st.end()){
             psum++;
         }
         return psum;
