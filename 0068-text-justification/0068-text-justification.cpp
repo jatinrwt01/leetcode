@@ -1,4 +1,54 @@
 class Solution {
+private:
+    string helperJustify(vector<string>&words, int s, int e, int mw, int n){
+        int numberOfWords=e-s;
+        int wl=0;
+        for(int k=s; k<e; k++){
+            wl+=words[k].size();
+        }
+        int i=s, j=e, maxWidth=mw;
+         if(j == n){
+            string lastline="";
+            for(int k=i; k<j; k++){
+                 if(k>i){
+                    lastline.push_back(' ');
+                }
+                lastline+=words[k];
+            }
+             while(lastline.size()<maxWidth){
+                    lastline.push_back(' ');
+                }
+                return lastline;
+        }
+        else if(numberOfWords== 1){
+            string onewordline="";
+            onewordline+=words[i];
+            while(onewordline.size()<maxWidth){
+                onewordline.push_back(' ');
+            }
+            return onewordline;
+        }
+        else{
+            int gaps=numberOfWords-1;
+            int spaces=maxWidth-wl;
+            int spacePerGap=spaces/gaps;
+            int extraSpaces=spaces%gaps;
+            string normalline="";
+            for(int k=i; k<j; k++){
+                normalline+=words[k];
+                if(k<j-1){
+                    int cnt=spacePerGap;
+                    if(k-i<extraSpaces){
+                        cnt++;
+                    }
+                for(int s=0; s<cnt; s++){
+                    normalline.push_back(' ');
+                }
+                }
+            }
+            return normalline;
+        }
+    }
 public:
     vector<string> fullJustify(vector<string>& words, int maxWidth) {
         vector<string>ans;
@@ -17,52 +67,10 @@ public:
             } else{
                 break;
             }
-            }
-        if(j == n){
-            string lastline="";
-            for(int k=i; k<j; k++){
-                 if(k>i){
-                    lastline.push_back(' ');
-                }
-                lastline+=words[k];
-            }
-             while(lastline.size()<maxWidth){
-                    lastline.push_back(' ');
-                }
-                ans.push_back(lastline);
-                break;
-        }
-        else if(j-i == 1){
-            string onewordline="";
-            onewordline+=words[i];
-            while(onewordline.size()<maxWidth){
-                onewordline.push_back(' ');
-            }
-            ans.push_back(onewordline);
-        }
-        else{
-            int numberOfWords=j-i;
-            int gaps=numberOfWords-1;
-            int spaces=maxWidth-l+gaps;
-            int spacePerGap=spaces/gaps;
-            int extraSpaces=spaces%gaps;
-            string normalline="";
-            for(int k=i; k<j; k++){
-                normalline+=words[k];
-                if(k<j-1){
-                    int cnt=spacePerGap;
-                    if(k-i<extraSpaces){
-                        cnt++;
-                    }
-                for(int s=0; s<cnt; s++){
-                    normalline.push_back(' ');
-                }
-                }
-            }
-            ans.push_back(normalline);
-        }
-        i=j;
-        }
+     }
+       ans.push_back(helperJustify(words,i,j,maxWidth,n));
+       i=j; 
+  }
         return ans;
     }
 };
