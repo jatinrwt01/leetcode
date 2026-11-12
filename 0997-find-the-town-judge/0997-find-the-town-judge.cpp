@@ -1,15 +1,14 @@
 class Solution {
 public:
     int findJudge(int n, vector<vector<int>>& trust) {
-        unordered_map<int,pair<int, int>>mp;
-        if(n==1) return 1;
+        vector<int>diff(n+1,0);
         for(auto it:trust){
-            mp[it[0]].second++;
-            mp[it[1]].first++;
+            diff[it[0]]--;
+            diff[it[1]]++;
         }
-        for(auto it:mp){
-            if(it.second.first == n-1 && it.second.second == 0){
-                return it.first;
+        for(int i=1; i<=n; i++){
+            if(diff[i] == n-1){
+                return i;
             }
         }
         return -1;
