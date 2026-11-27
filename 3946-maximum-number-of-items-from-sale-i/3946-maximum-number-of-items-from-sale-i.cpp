@@ -1,19 +1,4 @@
 class Solution {
-private:
-    int helper(int n, int b, vector<vector<int>>&items, int mp,vector<int>&free,vector<vector<int>>&dp){
-        if(n==0){
-            return b/mp;
-        }
-        if(dp[n-1][b]!=-1){
-            return dp[n-1][b];
-        }
-        int take=INT_MIN, skip=INT_MIN;
-        if(items[n-1][1]<=b){
-            take=1+free[n-1]+helper(n-1, b-items[n-1][1], items, mp, free,dp);
-        }
-        skip=helper(n-1, b, items, mp, free,dp);
-        return dp[n-1][b]=max(take,skip);
-    }
 public:
     int maximumSaleItems(vector<vector<int>>& items, int budget) {
         int n=items.size();
@@ -31,10 +16,26 @@ public:
             }
             free[i]=c;
         }
-        vector<vector<int>>dp(1001, vector<int>(1501,-1));
-        return helper(n, budget, items, minPrice, free,dp);
+        vector<vector<int>>dp(n+1, vector<int>(budget+1,0));
+        for(int i=0; i<=budget; i++){
+            dp[0][i]=i/minPrice;
+        }
+        for(int i=1; i<=n; i++){
+            for(int j=0; j<=budget; j++){
+                int take=INT_MIN, skip=INT_MIN;
+                int p=items[i-1][1];
+                if(p<=j){
+                    take=1+free[i-1]+dp[i-1][j-p];
+                }
+                skip=dp[i-1][j];
+                dp[i][j]=max(take,skip);
+            }
+        }
+        return dp[n][budget];
     }
 };
+
+
 
 // Synced seamlessly with LeetHub Pro
 // Pro features: https://bit.ly/leethubpro | Free version: https://bit.ly/leethubv4
